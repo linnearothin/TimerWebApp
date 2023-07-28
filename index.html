@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+<script>
+
+var secondsLeftTimer = 5;
+let myInterval;
+var audioElement = new Audio('morning-joy-alarm-clock-20961.mp3');
+var isAudioPlaying=false;
+
+function myFunction() {
+    document.getElementById("time").innerHTML = "The time is " + " " + getTime() + ":" + getMinutes() + ":" + getSec() +" ";
+}
+function getTime() {
+    const d = new Date();
+    let hours = d.getHours();
+    return hours;
+}
+function getMinutes() {
+    const d = new Date();
+    let minutes = d.getMinutes();
+    return minutes;
+}
+function getSec() {
+    const d = new Date();
+    let seconds = d.getSeconds();
+    return seconds;
+}
+function getDayOfWeek(){
+    const d = new Date();
+    let day = d.getDay();
+    console.log(day);
+    return day;
+}
+function getNameOfDay(){
+    const d = new Date();
+    let day = d.getDay();
+    let dayText= "";
+    switch(day){
+        case 0:
+            dayText="sunday";
+            break;
+        case 1:
+            dayText="monday";
+            break;
+        case 2:
+            dayText="tuesday";
+            break;
+         case 3:
+            dayText="wednesday";
+            break;
+        case 4:
+            dayText="thursday";
+            break;  
+        case 5:
+            dayText="friday";
+            break;
+        case 6:
+            dayText="saturday";
+            break;
+        }
+        return dayText;
+}
+function getmonthOfYear(){
+    const d = new Date();
+    let month = d.getMonth();
+    switch(month){
+        case 0:
+            month="January";
+            break;
+        case 1:
+            month="February";
+            break;
+        case 2:
+            month="March";
+            break;
+        case 3:
+            month="April";
+            break;
+        case 4:
+            month="May";
+            break;  
+        case 5:
+            month="June";
+            break;
+        case 6:
+            month="July";
+            break;
+        case 7:
+            month="August";
+            break;
+        case 8:
+            month="September";   
+            break;
+        case 9:
+            month="October";
+            break;
+        case 10:
+            month="November";
+            break;
+        case 11:
+            month="December";
+            break;  
+       
+    }
+    return month;
+}
+function getDateOfMonth(){
+    const d = new Date();
+    let date = d.getDate();
+    return date;
+}
+function showMinutesSeconds(){
+    let time = secondsLeftTimer;
+    let timeText ="";
+   let minutes =Math.floor(time/60);
+    let seconds = time-minutes*60;
+    return timeText =""+minutes+":"+seconds;
+}
+function startTimer(){
+    setInterval(function() {
+        document.getElementById("showTimer").innerHTML = "The timer is " + " " + secondsLeftTimer;
+
+        //When the timer is zero change here
+        if(secondsLeftTimer==0){
+            if(!isAudioPlaying) {
+                audioElement.play();
+                isAudioPlaying = true
+                if (confirm("Press a button!")) {
+                    txt = "You pressed OK!";
+                    } else {
+                    txt = "You pressed Cancel!";
+                    }
+            }
+            return secondsLeftTimer;
+        }
+
+        secondsLeftTimer--;
+        return showMinutesSeconds();
+    }, 1000)
+}
+function startPowerHour(){
+    if(myInterval){
+        clearInterval(myInterval);
+    }
+    secondsLeftTimer = 3600;
+    myInterval = setInterval(timer, 1000);
+    
+   
+    //timer();
+}
+function startQuickTasks(){
+    if(myInterval){
+        clearInterval(myInterval);
+    }
+    secondsLeftTimer = 300;
+    myInterval = setInterval(timer, 1000);
+    
+   
+    //timer();
+}
+function quickTasks(){
+    if(getDayOfWeek()==1){
+        document.getElementById("quickTasks").innerHTML = "Put away you clothes. Is the laundry basket full? Do a load of laundry";
+    } 
+    if(getDayOfWeek()==2){
+        document.getElementById("quickTasks").innerHTML = "Pick up the clothes and trash from the floor before Power Hour";
+    } 
+    if(getDayOfWeek()==3){
+        document.getElementById("quickTasks").innerHTML = "Take out the trash and water the plants";
+    } 
+    if(getDayOfWeek()==4){
+        document.getElementById("quickTasks").innerHTML = "Clean of your desk and put all the dishes in the dishwasher or clean them";
+    } 
+    if(getDayOfWeek()==5){
+        document.getElementById("quickTasks").innerHTML = "Clean the shower and quickly sweep the floors in the bathroom";
+    } 
+}
+
+function cleaningZone(){
+    
+
+    document.getElementById("cleaningZone").innerHTML = "Today is " + " " + getNameOfDay() +" "+ getmonthOfYear()+ " " +getDateOfMonth();
+    
+    if(getDayOfWeek()==0 || getDayOfWeek()==6){
+        document.getElementById("notCleaning").innerHTML = "On "+ getNameOfDay() +" we don't deepclean because it's the weekend";
+        return;
+    }
+    let date = getDateOfMonth();
+    if(getDayOfWeek()==0){
+        document.getElementById("powerHeader").innerHTML = "Plan Hour";
+        document.getElementById("powerHour").innerHTML = "Today is Plan Hour. Make the menu for the week and check the calender for the upcomming week for things comming up. Can you do something today to make the week easier?";
+        document.getElementById("powerButton").innerHTML ="Start timer";
+    }
+    if(getDayOfWeek()==2){
+        document.getElementById("powerHeader").innerHTML = "Power Hour";
+        document.getElementById("powerHour").innerHTML = "Today is Power Hour. Get your machines ready and make the floor shiny. Start the timer for one hour and then you are done!";
+        document.getElementById("powerButton").innerHTML ="Start timer";
+    }
+
+    if(date<=7){
+        document.getElementById("notCleaning").innerHTML = "Today we declutter or deep clean the entrance or balcony";
+    }
+    else if(date<=14){
+        document.getElementById("notCleaning").innerHTML = "Today we declutter or deep clean the kitchen";
+    }
+    else if(date<=21){
+        document.getElementById("notCleaning").innerHTML = "Today we declutter or deep clean the bathroom or office";
+    }
+    else if(date<=28){
+        document.getElementById("notCleaning").innerHTML = "Today we declutter or deep clean the bedroom";
+    }
+    else {
+        document.getElementById("notCleaning").innerHTML = "Today we declutter or deep clean the livingroom";
+    }
+    
+
+
+}
+
+
+//setInterval(myFunction, 1000); //clock interval timer
+
+</script>
+</head>
+<body>
+<h2>Cleaning timer</h2>
+
+<div id="cleaningZone">Hello</div>
+
+
+    <div id="card">
+        <h3 id="text">Quick Tasks</h3>
+        <div id="quickTasks">Here</div>
+        <button type="button" onclick="startQuickTasks()">Start timer</button>
+    </div>
+
+
+    <div id="card">
+        <h3>15 min of Declutter</h3>
+        <div id="notCleaning">Here</div>
+        <!--<button  type="button" onclick="cleaningZone()">Where to clean?</button> -->
+        <button type="button" onclick="startTimer()">Start timer</button>
+    </div>
+    
+
+    <div id="card">
+        <h3 id="powerHeader"></h3>
+        <div id="powerHour"></div>
+        <button id="powerButton" type="button" onclick="startPowerHour()">Start timer</button>
+    </div>
+
+ <div id="showTimer"></div>
+<div id="time"></div>
+
+<footer>
+    <p>Copyright Linnea Rothin 2022</p>
+</footer>
+</body>
+<script>
+    cleaningZone();
+    quickTasks();
+
+</script>
+</html>
